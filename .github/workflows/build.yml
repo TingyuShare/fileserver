@@ -25,16 +25,16 @@ jobs:
     - name: Tidy modules
       run: go mod tidy
 
-- name: Build
-  run: |
-    if [ "${{ runner.os }}" = "Linux" ]; then
-      GOOS=linux GOARCH=amd64 go build -o fileserver-linux-amd64 fileserver.go
-    elif [ "${{ runner.os }}" = "macOS" ]; then
-      GOOS=darwin GOARCH=amd64 go build -o fileserver-darwin-amd64 fileserver.go
-    else
-      GOOS=windows GOARCH=amd64 go build -o fileserver-windows-amd64.exe fileserver.go
-    fi
-  shell: bash
+    - name: Build
+      run: |
+        if [ "${{ runner.os }}" = "Linux" ]; then
+          GOOS=linux GOARCH=amd64 go build -o fileserver-linux-amd64 fileserver.go
+        elif [ "${{ runner.os }}" = "macOS" ]; then
+          GOOS=darwin GOARCH=amd64 go build -o fileserver-darwin-amd64 fileserver.go
+        else
+          GOOS=windows GOARCH=amd64 go build -o fileserver-windows-amd64.exe fileserver.go
+        fi
+      shell: bash
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
