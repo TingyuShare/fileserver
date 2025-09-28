@@ -53,7 +53,13 @@ func main() {
 			}
 			log.Fatal(err)
 		}
-		log.Printf("Server starting on %s", addr)
+		log.Printf("Server is accessible at http://localhost%s", addr)
+		if ips := getLocalIPs(); len(ips) > 0 {
+			log.Println("Also accessible on the local network at:")
+			for _, ip := range ips {
+				log.Printf("  http://%s%s", ip, addr)
+			}
+		}
 		log.Fatal(http.Serve(ln, nil))
 	}
 }
@@ -343,6 +349,8 @@ func extractZip(zipPath, destDir string) error {
 		outFile.Close()
 		rc.Close()
 
+
+
 		if err != nil {
 			log.Printf("Error copying %s: %v", f.Name, err)
 			return err
@@ -353,6 +361,22 @@ func extractZip(zipPath, destDir string) error {
 
 	log.Printf("Extraction completed for %s", destDir)
 	return nil
+}
+
+func getLocalIPs() []string {
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		return nil
+	}
+	var ips []string
+	for _, addr := range addrs {
+		if ipnet, ok := addr.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				ips = append(ips, ipnet.IP.String())
+			}
+		}
+	}
+	return ips
 }
 
 // zipDir 将目录打包到 ZIP 写入器
