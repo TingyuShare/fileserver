@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -59,3 +59,4 @@ jobs:
           artifacts/**/*
         draft: false
         prerelease: false
+        generate_release_notes: true
