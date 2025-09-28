@@ -209,14 +209,14 @@ func listHandler(w http.ResponseWriter, r *http.Request) {
     <meta charset="UTF-8">
 </head>
 <body>
-    <h1>文件和文件夹管理</h1>
-    <p>上传文件：直接选择文件上传。<br>上传文件夹：将文件夹压缩为 ZIP，重命名为 .up 后缀后上传（将自动解压）。</p>
+    <h1>File and Folder Management</h1>
+    <p>Upload files: Select files directly to upload.<br>Upload folders: Compress the folder into ZIP, rename to .up extension and upload (will auto-extract).</p>
     <form action="/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="file" required>
-        <input type="submit" value="上传">
+        <input type="submit" value="Upload">
     </form>
-    <h2>当前目录内容:</h2>
-    <h3>文件夹:</h3>
+    <h2>Current Directory Contents:</h2>
+    <h3>Folders:</h3>
     <ul>`)
 
 	for _, entry := range entries {
@@ -233,7 +233,7 @@ func listHandler(w http.ResponseWriter, r *http.Request) {
 		sb.WriteString(dirItem)
 	}
 	sb.WriteString(`</ul>
-    <h3>文件:</h3>
+    <h3>Files:</h3>
     <ul>`)
 	for _, item := range fileItems {
 		sb.WriteString(item)
